@@ -4,7 +4,10 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-def home(request):
+def landing(request):
+    return render(request, 'novels/landing.html')
+
+def novels_home(request):
     query = request.GET.get('q')
     genre_filter = request.GET.get('genre')
     novels = Novel.objects.all().order_by('-created_at')
@@ -44,4 +47,4 @@ def update_progress(request, novel_id):
         reading_progress.progress = progress
         reading_progress.save()
         return redirect('novel_detail', novel_id=novel_id)
-    return redirect('home')
+    return redirect('novels_home')
