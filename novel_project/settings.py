@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/novels/'
 LOGOUT_REDIRECT_URL = '/'
 
 ROOT_URLCONF = 'novel_project.urls'
