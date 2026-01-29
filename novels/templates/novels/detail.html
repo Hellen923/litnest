@@ -48,7 +48,14 @@
     </div>
     {% if novel.content %}
     <div class="book-content">
-        <pre style="white-space: pre-wrap; font-family: inherit;">{{ novel.content }}</pre>
+        <div id="book-text" style="white-space: pre-wrap; font-family: inherit;">{{ novel.content }}</div>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'update_progress' novel.id %}" id="progress-form">
+            {% csrf_token %}
+            <input type="hidden" name="progress" id="progress-input" value="{{ progress|default:0 }}">
+            <button type="submit" class="btn btn-info mt-3">Save Progress</button>
+        </form>
+        {% endif %}
     </div>
     {% else %}
     <div class="alert alert-info">
