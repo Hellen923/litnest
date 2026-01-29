@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Novel, Bookmark
+from .models import Novel, Bookmark, ReadingProgress
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -34,3 +34,14 @@ def toggle_bookmark(request, novel_id):
     else:
         messages.success(request, f"Added {novel.title} to bookmarks.")
     return redirect('novel_detail', novel_id=novel_id)
+
+@login_required
+def update_progress(request, novel_id):
+    if request.method == 'POST':
+        progress = float(request.POST.get('progress', 0))
+        novel = get_object_or_404(Novel, id=novel_id)
+        reading_progress, created = ReadingProgress.objects.get_or_create(user=request.user, novel=novel)
+        reading_progress.progress = progress
+        reading_progress.save()
+        return redirect('novel_detail', novel_id=novel_id)
+    return redirect('home')
