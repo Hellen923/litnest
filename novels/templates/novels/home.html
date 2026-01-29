@@ -34,6 +34,12 @@
     <h1 class="mb-4 text-center display-5 fw-semibold text-dark">📚 LitNest Romance Novels</h1>
 
 <div class="d-flex justify-content-end mb-3">
+  {% if user.is_authenticated %}
+    <span class="me-3">Hello, {{ user.username }}!</span>
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger me-2">Logout</a>
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">Login</a>
+  {% endif %}
   <button id="toggleDark" class="btn btn-outline-dark">
     🌙 Toggle Dark Mode
   </button>
@@ -72,7 +78,7 @@
                     <h5 class="card-title">{{ novel.title }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">by {{ novel.author }}</h6>
                     <p class="card-text"><strong>Genre:</strong> {{ novel.genre }}</p>
-                    <a href="{% url 'novel_detail' novel.id %}" class="btn btn-outline-primary btn-sm">📖 Read Summary</a>
+                    <a href="{% url 'novel_detail' novel.id %}" class="btn btn-outline-primary btn-sm">📖 Read Book</a>
                 </div>
             </div>
         </div>
