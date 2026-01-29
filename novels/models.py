@@ -24,3 +24,15 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return f"{self.user.username} bookmarked {self.novel.title}"
+
+class ReadingProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    novel = models.ForeignKey(Novel, on_delete=models.CASCADE)
+    progress = models.FloatField(default=0.0)  # Percentage or position
+    last_read = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'novel')
+
+    def __str__(self):
+        return f"{self.user.username} progress on {self.novel.title}: {self.progress}%"
