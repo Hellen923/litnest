@@ -4,14 +4,57 @@
 <head>
     <title>{{ novel.title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .book-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        .book-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
-    <a href="/" class="btn btn-secondary mb-4">&larr; Back</a>
-    <h1>{{ novel.title }}</h1>
-    <h4 class="text-muted">by {{ novel.author }}</h4>
-    <p><strong>Genre:</strong> {{ novel.genre }}</p>
-    <p class="mt-4">{{ novel.summary }}</p>
+    <a href="/" class="btn btn-secondary mb-4">&larr; Back to Library</a>
+    <div class="book-header">
+        <h1>{{ novel.title }}</h1>
+        <h4 class="text-muted">by {{ novel.author }}</h4>
+        <p><strong>Genre:</strong> {{ novel.genre }}</p>
+        <p class="mt-3">{{ novel.summary }}</p>
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'toggle_bookmark' novel.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-warning">
+                    {% if is_bookmarked %}Remove from Bookmarks{% else %}Add to Bookmarks{% endif %}
+                </button>
+            </form>
+        {% else %}
+            <a href="#" class="btn btn-outline-warning" onclick="alert('Please log in to bookmark books.');">Login to Bookmark</a>
+        {% endif %}
+        <button class="btn btn-outline-info" onclick="navigator.share ? navigator.share({title: '{{ novel.title }}', text: 'Check out this book: {{ novel.title }} by {{ novel.author }}', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied to clipboard!'))">Share</button>
+    </div>
+    {% if novel.content %}
+    <div class="book-content">
+        <pre style="white-space: pre-wrap; font-family: inherit;">{{ novel.content }}</pre>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <p>Full book content is not available yet. Please check back later.</p>
+    </div>
+    {% endif %}
 </div>
 </body>
 </html>
