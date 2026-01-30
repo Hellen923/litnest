@@ -249,7 +249,7 @@
             "author": "Charles Perrault",
             "genre": "Classic Fairy Tale",
             "summary": "Born into royalty and surrounded by promise, a young princess becomes the victim of a cruel curse spoken out of jealousy. On her sixteenth birthday, fate fulfills its threat, plunging her into a deep and unnatural sleep that spreads across the kingdom itself.\n\nYears pass, legends grow, and hope fades—until courage dares to challenge destiny. Sleeping Beauty is a timeless tale of fate, patience, and the belief that love and perseverance can awaken even the deepest darkness.",
-            "cover_image": "covers/sleeping.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000001"
         }
     },
@@ -261,7 +261,7 @@
             "author": "Chinua Achebe",
             "genre": "African Classic / Historical Fiction",
             "summary": "Okonkwo is a proud and respected leader whose life is driven by strength, honor, and fear of weakness. Rooted deeply in Igbo traditions, he believes masculinity and discipline are the foundations of success.\n\nWhen colonial rule and foreign religion enter his community, the balance of power shifts and cultural foundations begin to crack. Things Fall Apart is a powerful examination of identity, tradition, and the devastating impact of change.",
-            "cover_image": "covers/things.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000002"
         }
     },
@@ -273,7 +273,7 @@
             "author": "Chimamanda Ngozi Adichie",
             "genre": "African Contemporary Fiction",
             "summary": "Kambili grows up in a home ruled by fear, silence, and religious extremism. Though wealthy, her family is emotionally imprisoned by her controlling father. A visit to her aunt’s home introduces her to laughter, freedom, and choice.\n\nAs Nigeria faces political unrest, Kambili begins to find her voice. Purple Hibiscus is a tender yet powerful story of liberation, identity, and emotional awakening.",
-            "cover_image": "covers/hibiscus.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000003"
         }
     },
@@ -285,7 +285,7 @@
             "author": "Chimamanda Ngozi Adichie",
             "genre": "African Historical Fiction",
             "summary": "Set during the Nigerian Civil War, this novel follows interconnected lives shaped by love, loyalty, and survival. As Biafra rises and falls, ordinary people are forced to confront hunger, loss, and impossible choices.\n\nThrough intimate storytelling, the novel captures the emotional cost of war and the resilience of the human spirit.",
-            "cover_image": "covers/yellow.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000004"
         }
     },
@@ -297,7 +297,7 @@
             "author": "Margaret Ogola",
             "genre": "African Family Saga",
             "summary": "Spanning generations, this novel traces the lives of strong women bound by tradition, faith, and resilience. From colonial Kenya to modern times, it explores how values, education, and perseverance shape destiny.\n\nThe River and the Source is a celebration of African womanhood and legacy.",
-            "cover_image": "covers/river.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000005"
         }
     },
@@ -309,7 +309,7 @@
             "author": "Trevor Noah",
             "genre": "African Memoir",
             "summary": "Born during apartheid to parents whose relationship was illegal, Trevor Noah grows up navigating race, poverty, and violence with humor and sharp intelligence.\n\nThis memoir blends laughter with truth, offering insight into survival, identity, and resilience.",
-            "cover_image": "covers/crime.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000006"
         }
     },
@@ -321,7 +321,7 @@
             "author": "Tsitsi Dangarembga",
             "genre": "African Feminist Fiction",
             "summary": "Tambudzai dreams of education as an escape from poverty and limitation. As she enters a colonial-influenced world, she confronts gender roles, cultural expectations, and psychological conflict.\n\nA deeply introspective novel about womanhood and self-awareness.",
-            "cover_image": "covers/nervous.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000007"
         }
     },
@@ -333,7 +333,7 @@
             "author": "Henry Ole Kulet",
             "genre": "African Contemporary Fiction",
             "summary": "Two sisters raised in a traditional Maasai community dream of education and independence. As culture clashes with modernity, they must fight against forced traditions that threaten their futures.\n\nA compelling story of courage, identity, and resistance.",
-            "cover_image": "covers/blossoms.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000008"
         }
     },
@@ -345,7 +345,7 @@
             "author": "Ngũgĩ wa Thiong'o",
             "genre": "African Classic",
             "summary": "Two villages are divided by tradition and belief as colonial influence reshapes their world. Waiyaki emerges as a leader caught between cultural loyalty and the promise of education.\n\nA story of unity, sacrifice, and ideological conflict.",
-            "cover_image": "covers/between.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000009"
         }
     },
@@ -357,7 +357,7 @@
             "author": "Ngũgĩ wa Thiong'o",
             "genre": "African Political Fiction",
             "summary": "Set in post-independence Kenya, this novel exposes corruption, greed, and exploitation through satire and symbolism.\n\nBold and confrontational, it challenges power structures and social injustice.",
-            "cover_image": "covers/devil.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000010"
         }
     },
@@ -369,7 +369,7 @@
             "author": "John Steinbeck",
             "genre": "Classic Allegory",
             "summary": "When a poor pearl diver discovers a valuable pearl, hope turns to greed and destruction.\n\nA haunting story about wealth, ambition, and human nature.",
-            "cover_image": "covers/pearl.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000011"
         }
     },
@@ -381,7 +381,7 @@
             "author": "Kazuo Ishiguro",
             "genre": "Literary Fiction",
             "summary": "An aging artist reflects on his past and the moral consequences of his work in post-war Japan.\n\nA subtle meditation on memory, guilt, and change.",
-            "cover_image": "covers/artist.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000012"
         }
     },
@@ -393,22 +393,23 @@
             "author": "Binwell Sinyangwe",
             "genre": "African Social Fiction",
             "summary": "A mother risks everything to secure an education for her daughter in a society that limits women’s dreams.\n\nA deeply emotional story of sacrifice, hope, and resilience.",
-            "cover_image": "covers/cowrie.jpg",
+            "cover_image": null,
             "created_at": "2025-07-21T15:27:10.000013"
         }
     },
-    {
-        "model": "novels.novel",
-        "pk": 21,
-        "fields": {
-            "title": "Sleeping Beauty",
-            "author": "Charles Perrault",
-            "genre": "Classic Fairy Tale",
-            "summary": "Born into royalty and surrounded by promise, a young princess becomes the victim of a cruel curse spoken out of jealousy. On her sixteenth birthday, fate fulfills its threat, plunging her into a deep and unnatural sleep that spreads across the kingdom itself.\n\nYears pass, legends grow, and hope fades—until courage dares to challenge destiny. Sleeping Beauty is a timeless tale of fate, patience, and the belief that love and perseverance can awaken even the deepest darkness.",
-            "cover_image": "covers/sleeping.jpg",
-            "created_at": "2025-07-21T15:27:10.000001"
-        }
-    },
+   {
+    "model": "novels.novel",
+    "pk": 21,
+    "fields": {
+        "title": "Sleeping Beauty",
+        "author": "Phillip Margolin",
+        "genre": "Thriller / Crime",
+        "summary": "After surviving a brutal family massacre as a child, Ashley Spencer has spent years trying to build a new life from the shadows of her past. But when a bestselling true‑crime author publishes a book that frames an innocent man for the tragedy, long‑buried secrets begin to surface.\n\nHaunted by memories and hunted by unanswered questions, Ashley returns to confront the twisted forces that destroyed her family. As suspicion, betrayal, and danger close in, she must decipher lies from truth before the real killer strikes again. Gripping, suspenseful, and emotionally intense, Sleeping Beauty pulls readers into a psychological maze where nothing is what it seems and justice may come at the highest cost.",
+        "cover_image": "covers/sleeping.jpg",
+        "created_at": "2025-07-21T15:27:10.000001"
+    }
+}
+,
     {
         "model": "novels.novel",
         "pk": 22,
@@ -429,7 +430,7 @@
             "author": "Chimamanda Ngozi Adichie",
             "genre": "African Contemporary Fiction",
             "summary": "Kambili grows up in a home ruled by fear, silence, and religious extremism. Though wealthy, her family is emotionally imprisoned by her controlling father. A visit to her aunt's home introduces her to laughter, freedom, and choice.\n\nAs Nigeria faces political unrest, Kambili begins to find her voice. Purple Hibiscus is a tender yet powerful story of liberation, identity, and emotional awakening.",
-            "cover_image": "covers/hibiscus.jpg",
+            "cover_image": "covers/purple.jpg",
             "created_at": "2025-07-21T15:27:10.000003"
         }
     },
@@ -453,7 +454,7 @@
             "author": "Margaret Ogola",
             "genre": "African Family Saga",
             "summary": "Spanning generations, this novel traces the lives of strong women bound by tradition, faith, and resilience. From colonial Kenya to modern times, it explores how values, education, and perseverance shape destiny.\n\nThe River and the Source is a celebration of African womanhood and legacy.",
-            "cover_image": "covers/river.jpg",
+            "cover_image": "covers/source.jpg",
             "created_at": "2025-07-21T15:27:10.000005"
         }
     },
@@ -501,7 +502,7 @@
             "author": "Ngũgĩ wa Thiong'o",
             "genre": "African Classic",
             "summary": "Two villages are divided by tradition and belief as colonial influence reshapes their world. Waiyaki emerges as a leader caught between cultural loyalty and the promise of education.\n\nA story of unity, sacrifice, and ideological conflict.",
-            "cover_image": "covers/between.jpg",
+            "cover_image": "covers/river.jpg",
             "created_at": "2025-07-21T15:27:10.000009"
         }
     },
@@ -537,7 +538,7 @@
             "author": "Kazuo Ishiguro",
             "genre": "Literary Fiction",
             "summary": "An aging artist reflects on his past and the moral consequences of his work in post-war Japan.\n\nA subtle meditation on memory, guilt, and change.",
-            "cover_image": "covers/artist.jpg",
+            "cover_image": "covers/an.jpg",
             "created_at": "2025-07-21T15:27:10.000012"
         }
     },
