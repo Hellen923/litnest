@@ -28,7 +28,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <a href="/" class="btn btn-secondary mb-4">&larr; Back to Library</a>
+    <a href="{% url 'novels_home' %}" class="btn btn-secondary mb-4">&larr; Back to Library</a>
     <div class="book-header">
         <h1>{{ novel.title }}</h1>
         <h4 class="text-muted">by {{ novel.author }}</h4>
