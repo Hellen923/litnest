@@ -37,44 +37,37 @@
             .form-control, .form-select {
                 font-size: 0.9rem;
             }
+            .sticky-top {
+                position: static !important;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4 text-center display-5 fw-semibold">📚 LitNest Library</h1>
-
-<div class="d-flex justify-content-end mb-3">
-  {% if user.is_authenticated %}
-    <span class="me-3">Hello, {{ user.username }}!</span>
-    <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger me-2">Logout</a>
-  {% else %}
-    <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary me-2">Login</a>
-  {% endif %}
-  <button id="toggleDark" class="btn btn-outline-dark">
-    🌙 Toggle Dark Mode
-  </button>
-</div>
-
-
-    <form method="get" class="row mb-5 shadow-sm p-3 bg-white rounded">
-        <div class="col-md-5 mb-2 mb-md-0">
-            <input type="text" name="q" class="form-control" placeholder="Search by title or author..." value="{{ request.GET.q }}">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-5 fw-semibold">📚 LitNest Library</h1>
         </div>
-        <div class="col-md-4 mb-2 mb-md-0">
-            <select name="genre" class="form-select">
-                <option {% if not request.GET.genre or request.GET.genre == 'All' %}selected{% endif %}>All</option>
-                {% for genre in genres %}
-                    <option value="{{ genre }}" {% if request.GET.genre == genre %}selected{% endif %}>{{ genre }}</option>
-                {% endfor %}
-            </select>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-end align-items-center">
+            {% if user.is_authenticated %}
+                <span class="me-3">Hello, {{ user.username }}!</span>
+                <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger me-2">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary me-2">Login</a>
+            {% endif %}
+            <button id="toggleDark" class="btn btn-outline-dark">
+                🌙 Toggle Dark Mode
+            </button>
         </div>
-        <div class="col-md-3">
-            <button type="submit" class="btn btn-primary w-100">🔍 Filter</button>
-        </div>
-    </form>
+    </div>
 
     <div class="row">
+        <div class="col-lg-9 col-md-8">
+            <div class="row">
         {% for novel in novels %}
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm h-100 border-0">
@@ -96,6 +89,28 @@
         {% empty %}
         <p class="text-center">No novels found.</p>
         {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4">
+            <div class="bg-white p-3 rounded shadow-sm sticky-top" style="top: 20px;">
+                <h5 class="mb-3">🔍 Search & Filter</h5>
+                <form method="get">
+                    <div class="mb-3">
+                        <input type="text" name="q" class="form-control" placeholder="Search by title or author..." value="{{ request.GET.q }}">
+                    </div>
+                    <div class="mb-3">
+                        <select name="genre" class="form-select">
+                            <option {% if not request.GET.genre or request.GET.genre == 'All' %}selected{% endif %}>All Genres</option>
+                            {% for genre in genres %}
+                                <option value="{{ genre }}" {% if request.GET.genre == genre %}selected{% endif %}>{{ genre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
