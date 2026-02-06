@@ -1,154 +1,576 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Novel Library</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LitNest Library • Curated Reading Experience</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #8b4513;
+            --accent-color: #d4a76a;
+            --light-cream: #f8f4ef;
+            --dark-cream: #e8e0d5;
+            --text-dark: #2c1810;
+            --text-light: #f8f4ef;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f4f6fa;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-cream);
+            color: var(--text-dark);
+            transition: var(--transition);
+            line-height: 1.6;
         }
-        .card-img-top {
-            height: 250px;
-            object-fit: cover;
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            --primary-color: #d4a76a;
+            --light-cream: #2a2a2a;
+            --dark-cream: #3a3a3a;
         }
-        .card {
-            border-radius: 1rem;
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        /* Header Styles */
+        .header-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4a2c1a 100%);
+            color: var(--light-cream);
+            padding: 2rem 0;
+            position: relative;
             overflow: hidden;
         }
-        .card-body {
+
+        .header-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .library-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .library-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .library-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* User Controls */
+        .user-controls {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .greeting-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Search Section */
+        .search-section {
             background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        body.dark-mode .search-section {
+            background: #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        .search-input {
+            padding-left: 50px;
+            border: 2px solid var(--dark-cream);
+            border-radius: 12px;
+            height: 55px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(212, 167, 106, 0.2);
+        }
+
+        /* Filter Tags */
+        .filter-tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .filter-tag {
+            background: var(--dark-cream);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Book Cards */
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        body.dark-mode .book-card {
+            background: #2a2a2a;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-cover {
+            height: 320px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--dark-cream), #d1b8a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.1) 50%, transparent 55%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .book-title {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .book-details {
+            padding: 2rem;
+        }
+
+        .book-title-sm {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: var(--secondary-color);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .book-genre {
+            display: inline-block;
+            background: rgba(139, 69, 19, 0.1);
+            color: var(--secondary-color);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Read Button */
+        .read-btn {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        body.dark-mode .read-btn {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .read-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .read-btn:hover {
+            background: var(--accent-color);
+            color: #1a1a1a;
+        }
+
+        /* Stats Section */
+        .stats-card {
+            background: white;
+            border-radius: 15px;
             padding: 1.5rem;
+            text-align: center;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
-        .form-control, .form-select {
-            border-radius: 0.5rem;
+
+        body.dark-mode .stats-card {
+            background: #2a2a2a;
         }
-        .btn-primary {
-            border-radius: 0.5rem;
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Cormorant Garamond', serif;
         }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: var(--light-cream);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .display-5 {
-                font-size: 2rem;
+            .library-title {
+                font-size: 2.5rem;
             }
-            .card-img-top {
-                height: 200px;
+            
+            .search-section {
+                padding: 1.5rem;
+                margin-top: -1rem;
             }
-            .form-control, .form-select {
-                font-size: 0.9rem;
+            
+            .book-cover {
+                height: 250px;
             }
-            .sticky-top {
-                position: static !important;
+            
+            .book-title {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-<div class="container mt-5">
     <!-- Header Section -->
-    <div class="row mb-4 align-items-center">
-        <div class="col-md-6">
-            <h1 class="display-5 fw-semibold mb-0">📚 LitNest Library</h1>
-        </div>
-        <div class="col-md-6 d-flex justify-content-end align-items-center mt-3 mt-md-0">
-            {% if user.is_authenticated %}
-                <span class="me-3 d-none d-md-inline">Hello, {{ user.username }}!</span>
-                <a href="{% url 'accounts:logout' %}" class="btn btn-outline-danger me-2">Logout</a>
-            {% else %}
-                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary me-2">Login</a>
-            {% endif %}
-            <button id="toggleDark" class="btn btn-outline-dark">
-                🌙 Toggle Dark Mode
-            </button>
-        </div>
-    </div>
-
-    <!-- Search & Filter Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="bg-light p-3 rounded">
-                <form method="get">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-5">
-                            <label for="searchInput" class="form-label fw-semibold">Search</label>
-                            <input type="text" id="searchInput" name="q" class="form-control" placeholder="Search by title or author..." value="{{ request.GET.q }}">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="genreSelect" class="form-label fw-semibold">Genre</label>
-                            <select id="genreSelect" name="genre" class="form-select">
-                                <option {% if not request.GET.genre or request.GET.genre == 'All' %}selected{% endif %}>All Genres</option>
-                                {% for genre in genres %}
-                                    <option value="{{ genre }}" {% if request.GET.genre == genre %}selected{% endif %}>{{ genre }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary w-100">🔍 Search</button>
-                        </div>
+    <header class="header-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="library-title">
+                        <i class="fas fa-book-open me-3"></i>LitNest Library
+                    </h1>
+                    <p class="library-subtitle">Curated collection of timeless literature • Since 2015</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <div class="user-controls">
+                        {% if user.is_authenticated %}
+                            <span class="greeting-text">Welcome back, <strong>{{ user.username }}</strong></span>
+                            <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline-light">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-light">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login
+                            </a>
+                        {% endif %}
+                        <button id="themeToggle" class="btn btn-sm btn-outline-light">
+                            <i class="fas fa-moon"></i>
+                        </button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Books Grid -->
-    <div class="row">
-        {% for novel in novels %}
-        <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-            <div class="card shadow-sm h-100 border-0">
-                {% if novel.cover_image %}
-                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="Cover for {{ novel.title }}">
-                {% else %}
-                    <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white" style="height: 250px;">
-                        <span>No Cover</span>
-                    </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ novel.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">by {{ novel.author }}</h6>
-                    <p class="card-text"><strong>Genre:</strong> {{ novel.genre }}</p>
-                    <a href="{% url 'novel_detail' novel.id %}" class="btn btn-outline-primary btn-sm">📖 Read Book</a>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <div class="col-12">
-            <p class="text-center">No novels found.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <!-- Search & Filter Section -->
+        <div class="search-section mb-5">
+            <div class="row">
+                <div class="col-md-8 mb-3 mb-md-0">
+                    <div class="position-relative">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" 
+                               class="form-control search-input" 
+                               placeholder="Search by title, author, or keyword..."
+                               value="{{ request.GET.q }}">
+                    </div>
+                    
+                    <!-- Active Filters -->
+                    <div class="filter-tags mt-3">
+                        <button class="filter-tag active">All Books</button>
+                        <button class="filter-tag">Fiction</button>
+                        <button class="filter-tag">Classics</button>
+                        <button class="filter-tag">Literary</button>
+                        <button class="filter-tag">Romance</button>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <select class="form-select" style="height: 55px; border-radius: 12px;">
+                        <option>Sort by: Recently Added</option>
+                        <option>Sort by: Title A-Z</option>
+                        <option>Sort by: Author A-Z</option>
+                        <option>Sort by: Most Read</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-    </div>
-</div>
 
-<script>
-  const toggle = document.getElementById("toggleDark");
-  const body = document.body;
+        <!-- Library Stats -->
+        <div class="row mb-5">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stat-number">{{ novels|length }}</div>
+                    <div class="text-muted">Total Books</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stat-number">{{ genres|length }}</div>
+                    <div class="text-muted">Genres</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stat-number">24</div>
+                    <div class="text-muted">Authors</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stats-card">
+                    <div class="stat-number">2015</div>
+                    <div class="text-muted">Established</div>
+                </div>
+            </div>
+        </div>
 
-  // Check localStorage
-  if (localStorage.getItem("theme") === "dark") {
-    body.classList.add("bg-dark", "text-light");
-    toggle.classList.remove("btn-outline-dark");
-    toggle.classList.add("btn-light");
-    toggle.innerText = "☀️ Toggle Light Mode";
-  }
+        <!-- Books Grid -->
+        <h2 class="mb-4" style="font-size: 2.2rem;">Featured Collection</h2>
+        
+        <div class="row g-4">
+            {% for novel in novels %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="book-card">
+                    <div class="book-cover">
+                        {% if novel.cover_image %}
+                            <img src="{{ novel.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ novel.title }}">
+                        {% else %}
+                            <div class="book-title">{{ novel.title|truncatechars:30 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title-sm">{{ novel.title }}</h3>
+                        <p class="book-author">
+                            <i class="fas fa-pen-nib me-2"></i>{{ novel.author }}
+                        </p>
+                        <span class="book-genre">{{ novel.genre }}</span>
+                        <a href="{% url 'novel_detail' novel.id %}" class="read-btn">
+                            <i class="fas fa-book-reader"></i> Read Book
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-book-open fa-3x mb-3" style="color: var(--dark-cream);"></i>
+                <h3 class="mb-3">No books found</h3>
+                <p class="text-muted">Try adjusting your search or filter criteria</p>
+            </div>
+            {% endfor %}
+        </div>
 
-  toggle.addEventListener("click", () => {
-    body.classList.toggle("bg-dark");
-    body.classList.toggle("text-light");
+        <!-- Pagination -->
+        {% if novels.has_other_pages %}
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if novels.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ novels.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                {% for i in novels.paginator.page_range %}
+                    <li class="page-item {% if novels.number == i %}active{% endif %}">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                
+                {% if novels.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ novels.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </main>
 
-    if (body.classList.contains("bg-dark")) {
-      localStorage.setItem("theme", "dark");
-      toggle.classList.remove("btn-outline-dark");
-      toggle.classList.add("btn-light");
-      toggle.innerText = "☀️ Toggle Light Mode";
-    } else {
-      localStorage.setItem("theme", "light");
-      toggle.classList.remove("btn-light");
-      toggle.classList.add("btn-outline-dark");
-      toggle.innerText = "🌙 Toggle Dark Mode";
-    }
-  });
-</script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3 class="mb-3">
+                        <i class="fas fa-book-open me-2"></i>LitNest Library
+                    </h3>
+                    <p>A curated collection of timeless literature for discerning readers.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light text-decoration-none">Browse All Books</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Featured Authors</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Reading Lists</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Book Club</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Stay Updated</h5>
+                    <p>Subscribe to our newsletter for new arrivals and literary insights.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-accent" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 opacity-25">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 LitNest Library. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+        
+        // Filter tag interaction
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Book card hover effect enhancement
+        document.querySelectorAll('.book-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.08)';
+            });
+        });
+    </script>
 </body>
 </html>

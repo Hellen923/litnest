@@ -1,75 +1,775 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ novel.title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ novel.title }} • LitNest Library</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #8b4513;
+            --accent-color: #d4a76a;
+            --light-cream: #f8f4ef;
+            --dark-cream: #e8e0d5;
+            --text-dark: #2c1810;
+            --text-light: #f8f4ef;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f4f6fa;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .book-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-cream);
+            color: var(--text-dark);
+            transition: var(--transition);
             line-height: 1.6;
-            font-size: 1.1rem;
         }
-        .book-header {
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            --primary-color: #d4a76a;
+            --light-cream: #2a2a2a;
+            --dark-cream: #3a3a3a;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
             background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        @media (max-width: 768px) {
-            .book-header, .book-content {
-                padding: 1rem;
+
+        body.dark-mode .nav-bar {
+            background: #2a2a2a;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        body.dark-mode .back-btn {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(-3px);
+        }
+
+        body.dark-mode .back-btn:hover {
+            background: var(--accent-color);
+            color: #1a1a1a;
+        }
+
+        /* Book Header */
+        .book-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4a2c1a 100%);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+
+        .book-title-main {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .book-author-name {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            min-width: 120px;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .bookmark-btn {
+            background: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .bookmark-btn:hover {
+            background: transparent;
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .share-btn {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .share-btn:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Book Content */
+        .book-content-wrapper {
+            padding: 3rem 0;
+        }
+
+        .book-summary {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        body.dark-mode .book-summary {
+            background: #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        body.dark-mode .content-container {
+            background: #2a2a2a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .chapter-nav {
+            background: var(--dark-cream);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .chapter-nav {
+            background: #3a3a3a;
+        }
+
+        .progress-section {
+            background: var(--dark-cream);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        body.dark-mode .progress-section {
+            background: #3a3a3a;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        /* Sidebar */
+        .book-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .book-cover-large {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--dark-cream), #d1b8a0);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-cover-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .info-card {
+            background: #2a2a2a;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-title {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        .book-footer {
+            background: var(--primary-color);
+            color: var(--light-cream);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .related-books {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scrollbar-width: thin;
+        }
+
+        .related-book-card {
+            min-width: 200px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .related-book-card {
+            background: #2a2a2a;
+        }
+
+        .related-book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .book-title-main {
+                font-size: 2.5rem;
             }
-            .display-1 {
+            
+            .book-cover-large {
+                height: 300px;
+            }
+            
+            .book-sidebar {
+                position: static;
+                margin-bottom: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-hero {
+                padding: 2rem 0;
+            }
+            
+            .book-title-main {
                 font-size: 2rem;
+            }
+            
+            .book-meta {
+                gap: 1rem;
+            }
+            
+            .meta-item {
+                padding: 0.8rem 1rem;
+                min-width: 100px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <a href="{% url 'novels_home' %}" class="btn btn-secondary mb-4">&larr; Back to Library</a>
-    <div class="book-header">
-        <h1>{{ novel.title }}</h1>
-        <h4 class="text-muted">by {{ novel.author }}</h4>
-        <p><strong>Genre:</strong> {{ novel.genre }}</p>
-        <p class="mt-3">{{ novel.summary }}</p>
-        {% if user.is_authenticated %}
-            <form method="post" action="{% url 'toggle_bookmark' novel.id %}" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-warning">
-                    {% if is_bookmarked %}Remove from Bookmarks{% else %}Add to Bookmarks{% endif %}
-                </button>
-            </form>
-        {% else %}
-            <a href="#" class="btn btn-outline-warning" onclick="alert('Please log in to bookmark books.');">Login to Bookmark</a>
-        {% endif %}
-        <button class="btn btn-outline-info" onclick="navigator.share ? navigator.share({title: '{{ novel.title }}', text: 'Check out this book: {{ novel.title }} by {{ novel.author }}', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied to clipboard!'))">Share</button>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="{% url 'novels_home' %}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Library
+                </a>
+                <div class="d-flex align-items-center gap-3">
+                    {% if user.is_authenticated %}
+                        <span class="d-none d-md-inline">Welcome, {{ user.username }}</span>
+                        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    {% endif %}
+                    <button id="themeToggle" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Book Hero Section -->
+    <section class="book-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="book-title-main">{{ novel.title }}</h1>
+                    <p class="book-author-name">by {{ novel.author }}</p>
+                    
+                    <div class="book-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Genre</span>
+                            <span class="meta-value">{{ novel.genre }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Pages</span>
+                            <span class="meta-value">{{ novel.pages|default:"N/A" }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Published</span>
+                            <span class="meta-value">{{ novel.published_year|default:"N/A" }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Rating</span>
+                            <span class="meta-value">4.8 ★</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'toggle_bookmark' novel.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn bookmark-btn">
+                                    <i class="fas fa-bookmark"></i>
+                                    {% if is_bookmarked %}Remove Bookmark{% else %}Add to Bookmarks{% endif %}
+                                </button>
+                            </form>
+                        {% else %}
+                            <button class="action-btn bookmark-btn" onclick="alert('Please log in to bookmark books.')">
+                                <i class="fas fa-bookmark"></i> Login to Bookmark
+                            </button>
+                        {% endif %}
+                        
+                        <button class="action-btn share-btn" onclick="shareBook()">
+                            <i class="fas fa-share-alt"></i> Share Book
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="book-sidebar">
+                    <div class="book-cover-large">
+                        {% if novel.cover_image %}
+                            <img src="{{ novel.cover_image.url }}" alt="{{ novel.title }}" class="img-fluid">
+                        {% else %}
+                            <div class="text-center text-white p-4">
+                                <i class="fas fa-book-open fa-4x mb-3"></i>
+                                <h3>{{ novel.title|truncatechars:40 }}</h3>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3 class="info-title">Book Details</h3>
+                        <div class="mb-3">
+                            <strong>Author:</strong> {{ novel.author }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Genre:</strong> 
+                            <span class="badge bg-primary">{{ novel.genre }}</span>
+                        </div>
+                        {% if novel.language %}
+                        <div class="mb-3">
+                            <strong>Language:</strong> {{ novel.language }}
+                        </div>
+                        {% endif %}
+                        {% if novel.isbn %}
+                        <div class="mb-3">
+                            <strong>ISBN:</strong> {{ novel.isbn }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3 class="info-title">Reading Stats</h3>
+                        <div class="progress-section">
+                            <div class="d-flex justify-content-between">
+                                <span class="progress-text">Progress</span>
+                                <span class="progress-text">{{ progress|default:0 }}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'update_progress' novel.id %}">
+                                {% csrf_token %}
+                                <div class="input-group mt-3">
+                                    <input type="range" class="form-range" name="progress" id="progress-slider" 
+                                           min="0" max="100" value="{{ progress|default:0 }}" 
+                                           oninput="updateProgressValue(this.value)">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small id="progress-value">{{ progress|default:0 }}%</small>
+                                </div>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <div class="book-content-wrapper">
+                    <!-- Summary -->
+                    <div class="book-summary">
+                        <h3 class="mb-4">
+                            <i class="fas fa-info-circle me-2 text-primary"></i>About This Book
+                        </h3>
+                        <p>{{ novel.summary|default:"No summary available for this book." }}</p>
+                    </div>
+
+                    <!-- Book Content -->
+                    {% if novel.content %}
+                    <div class="content-container">
+                        <div class="chapter-nav">
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-chevron-left"></i> Previous Chapter
+                            </button>
+                            <span class="fw-semibold">Chapter 1</span>
+                            <button class="btn btn-outline-primary">
+                                Next Chapter <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+
+                        <div id="book-text" style="white-space: pre-wrap; font-family: inherit;">
+                            {{ novel.content|truncatechars:1500 }}
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary px-4">
+                                <i class="fas fa-book-open me-2"></i> Continue Reading
+                            </button>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle fa-2x me-3"></i>
+                            <div>
+                                <h4>Full Content Coming Soon</h4>
+                                <p class="mb-0">The complete book content is being prepared. Check back soon to start reading!</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Related Books -->
+                    <div class="mt-5">
+                        <h3 class="mb-4">
+                            <i class="fas fa-book-reader me-2 text-primary"></i>You Might Also Like
+                        </h3>
+                        <div class="related-books">
+                            <!-- This would be populated dynamically in a real app -->
+                            <div class="related-book-card">
+                                <div style="height: 150px; background: var(--dark-cream);"></div>
+                                <div class="p-3">
+                                    <h6 class="mb-1">The Great Gatsby</h6>
+                                    <small class="text-muted">F. Scott Fitzgerald</small>
+                                </div>
+                            </div>
+                            <div class="related-book-card">
+                                <div style="height: 150px; background: var(--dark-cream);"></div>
+                                <div class="p-3">
+                                    <h6 class="mb-1">1984</h6>
+                                    <small class="text-muted">George Orwell</small>
+                                </div>
+                            </div>
+                            <div class="related-book-card">
+                                <div style="height: 150px; background: var(--dark-cream);"></div>
+                                <div class="p-3">
+                                    <h6 class="mb-1">Pride and Prejudice</h6>
+                                    <small class="text-muted">Jane Austen</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% if novel.content %}
-    <div class="book-content">
-        <div id="book-text" style="white-space: pre-wrap; font-family: inherit;">{{ novel.content }}</div>
-        {% if user.is_authenticated %}
-        <form method="post" action="{% url 'update_progress' novel.id %}" id="progress-form">
-            {% csrf_token %}
-            <input type="hidden" name="progress" id="progress-input" value="{{ progress|default:0 }}">
-            <button type="submit" class="btn btn-info mt-3">Save Progress</button>
-        </form>
-        {% endif %}
-    </div>
-    {% else %}
-    <div class="alert alert-info">
-        <p>Full book content is not available yet. Please check back later.</p>
-    </div>
-    {% endif %}
-</div>
+
+    <!-- Footer -->
+    <footer class="book-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-3">
+                        <i class="fas fa-book-open me-2"></i>LitNest Library
+                    </h3>
+                    <p class="mb-0">A curated collection of timeless literature for discerning readers.</p>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5 class="mb-3">Explore More</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-light text-decoration-none">Browse All</a></li>
+                                <li><a href="#" class="text-light text-decoration-none">Popular Books</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-light text-decoration-none">Authors</a></li>
+                                <li><a href="#" class="text-light text-decoration-none">Collections</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Reading Tools</h5>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-font"></i> Text Size
+                        </button>
+                        <button class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-moon"></i> Dark Mode
+                        </button>
+                        <button class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 opacity-25">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 LitNest Library by Hellen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Share Function
+        function shareBook() {
+            const shareData = {
+                title: '{{ novel.title }}',
+                text: 'Check out this amazing book on LitNest Library: {{ novel.title }} by {{ novel.author }}',
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Book shared successfully'))
+                    .catch(err => console.log('Error sharing:', err));
+            } else {
+                // Fallback: Copy to clipboard
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                        alert('Link copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.log('Error copying:', err);
+                        prompt('Copy this link:', window.location.href);
+                    });
+            }
+        }
+
+        // Progress Slider
+        function updateProgressValue(value) {
+            document.getElementById('progress-value').textContent = value + '%';
+            const progressFill = document.querySelector('.progress-fill');
+            progressFill.style.width = value + '%';
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Reading progress indicator on scroll
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
+            const progressBar = document.querySelector('.progress-fill');
+            if (progressBar) {
+                progressBar.style.width = scrollPercent + '%';
+            }
+        });
+
+        // Set initial progress width
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = '{{ progress|default:0 }}%';
+            }
+        });
+    </script>
 </body>
 </html>
